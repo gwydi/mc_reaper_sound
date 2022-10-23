@@ -9,18 +9,24 @@ class ProjectProvider with ChangeNotifier {
     String templateFile =
         getFileInHomeDir(".mcspack/template_project.rpp").readAsStringSync();
     File newFile =
-        getFileInHomeDir(".mcspack/.projects/${sound.path.trim()}.rpp")
-          ..createSync(recursive: true); //todo: replace uuid
+        getFileInHomeDir(".mcspack/.projects/${sound.id}.rpp")
+          ..createSync(recursive: true);
     newFile.writeAsStringSync(templateFile);
   }
 
   void openProject(Sound sound) {
     String path =
-        getFileInHomeDir(".mcspack/.projects/${sound.path.trim()}.rpp").path;
+        getFileInHomeDir(".mcspack/.projects/${sound.id}.rpp").path;
     Process.run("reaper", [path]).then((value) {
       print(value.exitCode);
       print(value.stderr);
       print(value.stdout);
     });
+  }
+
+  static bool projectExits(String id) {
+    String path =
+        getFileInHomeDir(".mcspack/.projects/$id.rpp").path;
+    return File(path).existsSync();
   }
 }

@@ -1,16 +1,15 @@
 # mc_reaper_sound
 
-Creating reaper projects for minecraft sounds.
+This projects aim is to make the creation of minecraft sound packs using reaper a little easier.
 
-## Getting Started
+## Installation
+Follow these steps if you have not already done so:
 
-This project is a starting point for a Flutter application.
+- Download the build of this project [here]()
+- Install reaper [here](https://www.reaper.fm/)
+- add reaper to the path ([guide on adding to path](https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/))
+- download and unzip ffmpeg [here](https://github.com/BtbN/FFmpeg-Builds/releases)
+- add ffmpeg to the path
+- install vlc [here](https://www.videolan.org/vlc/index.de.html)
+- add vlc to the path
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
