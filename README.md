@@ -12,4 +12,5 @@ Follow these steps if you have not already done so:
 - add ffmpeg to the path
 - install vlc [here](https://www.videolan.org/vlc/index.de.html)
 - add vlc to the path
-
+- download the original sounds and put them under ```~/.mcspack/.og/``` (the folder should contain ambient, block, damage ...)
+- clone the [mc-spack repo](https://github.com/gwydi/hslu-mcspack) into ```~/AppData/Roaming/.minecraft/resourcepacks```
