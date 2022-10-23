@@ -14,3 +14,8 @@ Follow these steps if you have not already done so:
 - add vlc to the path
 - download the original sounds and put them under ```~/.mcspack/.og/``` (the folder should contain ambient, block, damage ...)
 - clone the [mc-spack repo](https://github.com/gwydi/hslu-mcspack) into ```~/AppData/Roaming/.minecraft/resourcepacks```
+
+## known issues
+- the sounds under ```/event/raid/``` and ```/block/bell/bell_use``` do not work because the game has an inconsistent naming convention with those files.
+- playing one sound does not stop the previous sound from playing
+

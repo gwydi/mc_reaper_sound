@@ -20,3 +20,21 @@ File getFileInHomeDir(String filePath) {
   File file = File(fullPath);
   return file;
 }
+
+Future<double> getFileDuration(String filePath) async {
+  ProcessResult result = await Process.run("ffprobe", [
+    "-i",
+    filePath,
+    "-show_entries",
+    "format=duration",
+    "-v",
+    "quiet",
+    "-of",
+    "csv=p=0",
+  ]);
+  print(result.exitCode);
+  print(result.stdout);
+  print(result.stderr);
+  String duration = result.stdout;
+  return double.parse(duration);
+}

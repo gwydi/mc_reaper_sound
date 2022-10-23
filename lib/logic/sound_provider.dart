@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:mc_reaper_sound/logic/custom_functions.dart';
 
 import 'package:flutter/material.dart';

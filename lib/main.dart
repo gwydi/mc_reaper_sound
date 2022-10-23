@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:mc_reaper_sound/logic/config_provider.dart';
 import 'package:mc_reaper_sound/logic/project_provider.dart';
 import 'package:mc_reaper_sound/logic/sound_provider.dart';
 import 'package:mc_reaper_sound/view/main_screen.dart';
@@ -8,16 +9,20 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  ConfigProvider configProvider = ConfigProvider()..init();
   runApp(MultiProvider(
     providers: [
+      ChangeNotifierProvider.value(
+        value: configProvider,
+      ),
       ChangeNotifierProvider(
         create: (context) => SoundProvider()..loadSounds(),
         lazy: false,
       ),
       ChangeNotifierProvider(
-        create: (context) => ProjectProvider(),
+        create: (context) => ProjectProvider(configProvider),
         lazy: false,
-      )
+      ),
     ],
     child: const MyApp(),
   ));

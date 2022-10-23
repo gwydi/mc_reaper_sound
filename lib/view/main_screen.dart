@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mc_reaper_sound/logic/config_provider.dart';
 import 'package:mc_reaper_sound/logic/project_provider.dart';
 import 'package:mc_reaper_sound/logic/sound_provider.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +18,10 @@ class MainScreen extends StatelessWidget {
             child: Row(
               children: [
                 IconButton(
-                  onPressed: () => context.read<SoundProvider>().loadSounds(),
+                  onPressed: () {
+                    context.read<SoundProvider>().loadSounds();
+                    context.read<ConfigProvider>().init();
+                  },
                   icon: const Icon(Icons.refresh),
                   splashRadius: 20,
                 ),
@@ -192,13 +196,11 @@ class MainScreen extends StatelessWidget {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       IconButton(
-                                        onPressed: () {
-                                          context
-                                              .read<ProjectProvider>()
-                                              .createProject(sound);
-                                          context
-                                              .read<ProjectProvider>()
-                                              .openProject(sound);
+                                        onPressed: () async {
+                                          var provider =
+                                              context.read<ProjectProvider>();
+                                          await provider.createProject(sound);
+                                          provider.openProject(sound);
                                         },
                                         icon: const Icon(Icons.add),
                                       ),
