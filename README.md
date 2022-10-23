@@ -14,8 +14,11 @@ Follow these steps if you have not already done so:
 - add vlc to the path
 - download the original sounds and put them under ```~/.mcspack/.og/``` (the folder should contain ambient, block, damage ...)
 - clone the [mc-spack repo](https://github.com/gwydi/hslu-mcspack) into ```~/AppData/Roaming/.minecraft/resourcepacks```
+- download [this](https://raw.githubusercontent.com/gwydi/mc_reaper_sound/main/config.json) file and move it to ```~/.mcspack/.og/config.json```
+- download [this](https://raw.githubusercontent.com/gwydi/mc_reaper_sound/main/template_project.rpp) file and move it to ```~/.mcspack/.og/template_project.rpp```
 
 ## known issues
+- reaper files with only one sound inside them have an issue when exporting. The rendered files need to be renamed manually (remove the ```template_project.rpp```)
 - the sounds under ```/event/raid/``` and ```/block/bell/bell_use``` do not work because the game has an inconsistent naming convention with those files.
 - playing one sound does not stop the previous sound from playing
 
