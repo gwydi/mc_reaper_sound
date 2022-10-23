@@ -5,7 +5,7 @@ This projects aim is to make the creation of minecraft sound packs using reaper 
 ## Installation
 Follow these steps if you have not already done so:
 
-- Download the build of this project [here]()
+- Download the latest build of this project [here](https://github.com/gwydi/mc_reaper_sound/releases)
 - Install reaper [here](https://www.reaper.fm/)
 - add reaper to the path ([guide on adding to path](https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/))
 - download and unzip ffmpeg [here](https://github.com/BtbN/FFmpeg-Builds/releases)
