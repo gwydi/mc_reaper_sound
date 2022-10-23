@@ -1,3 +1,3 @@
 {
-  "markerTemplate": "  MARKER {MARKER-NR} {START} \"{MARKER-NR}\" 5 0 1 R\n  MARKER {MARKER-NR} {END} \"\" 5 0 1 R\n"
+  "markerTemplate": "  MARKER {MARKER-NR} {START} \"{MARKER-NAME}\" 5 0 1 R\n  MARKER {MARKER-NR} {END} \"\" 5 0 1 R\n"
 }

@@ -11,6 +11,19 @@ class SoundProvider with ChangeNotifier {
 
   Map<String, Sound> get sounds => _sounds!;
 
+  Map<String, Sound> get filteredSounds {
+    if (_filter == null) {
+      return _sounds!;
+    }
+    return {
+      for(MapEntry<String, Sound> sound in _sounds!.entries)
+        if(sound.key.contains(_filter!))
+          sound.key: sound.value
+    };
+  }
+
+  String? _filter;
+
   void loadSounds() {
     File file = getFileInHomeDir(
         "AppData/Roaming/.minecraft/resourcepacks/hslu-mcspack/all_sounds.md");
@@ -45,7 +58,21 @@ class SoundProvider with ChangeNotifier {
         }
       }
     }
+    _sortSounds();
     notifyListeners();
+  }
+
+
+  void filter(String filter) {
+    _filter = filter;
+    if (_filter!.trim().isEmpty) _filter = null;
+    notifyListeners();
+  }
+
+  void _sortSounds() {
+    _sounds!.forEach((key, value) {
+      value.numbers.sort();
+    });
   }
 
   void playSound(Sound sound, int? number) {
@@ -79,7 +106,7 @@ class Sound {
   final List<int?> ogSounds = [];
   final List<int?> customSounds = [];
   final List<String> folders;
-  final Set<int> numbers = {};
+  final List<int> numbers = [];
 
   Sound({
     required this.path,

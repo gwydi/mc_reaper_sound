@@ -38,13 +38,14 @@ class ProjectProvider with ChangeNotifier {
   Future<String> _populateTemplate(String template, Sound sound) async {
     var numbers = sound.numbers;
     String markers;
-    if (numbers.contains(null)) {
+    if (numbers.isEmpty) {
       markers = _generateMarker(
-          null,
-          0,
-          await getFileDuration(
-            getFileInHomeDir(".mcspack/.og/${sound.id}.ogg").path,
-          ));
+        null,
+        0,
+        await getFileDuration(
+          getFileInHomeDir(".mcspack/.og/${sound.id}.ogg").path,
+        ),
+      );
     } else {
       markers = await _generateMarkers(sound, numbers.toList());
     }
@@ -72,7 +73,9 @@ class ProjectProvider with ChangeNotifier {
   String _generateMarker(int? number, double start, double end) {
     var markerTemplate = configProvider.markerTemplate;
     return markerTemplate
-        .replaceAll("{MARKER-NR}", number == null ? "" : number.toString())
+        .replaceAll("{MARKER-NR}", number == null ? "1" : number.toString())
+        .replaceAll("{MARKER-NAME}",
+            number == null ? "_RENAME_ME_AFTER_RENDER" : number.toString())
         .replaceAll("{START}", start.toString())
         .replaceAll(
           "{END}",
