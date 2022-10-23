@@ -2,6 +2,14 @@
 
 This projects aim is to make the creation of minecraft sound packs using reaper a little easier.
 
+## Features
+- Playing original sounds
+- Playing created sounds
+- Create and open reaper project
+- Created Reaper Projects will export files to the correct location in the sound pack
+- Shows if a sound has already been approved (checks [all_sounds.md](https://github.com/gwydi/hslu-mcspack/blob/main/all_sounds.md))
+- All within one ui
+
 ## Installation
 Follow these steps if you have not already done so:
 
