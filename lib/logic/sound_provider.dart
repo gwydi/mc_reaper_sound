@@ -4,6 +4,8 @@ import 'package:mc_reaper_sound/logic/custom_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:mc_reaper_sound/logic/project_provider.dart';
 
+import 'custom_functions.dart';
+
 class SoundProvider with ChangeNotifier {
   Map<String, Sound>? _sounds;
 
@@ -11,14 +13,15 @@ class SoundProvider with ChangeNotifier {
 
   Map<String, Sound> get sounds => _sounds!;
 
+  String currentInputFile = "";
+
   Map<String, Sound> get filteredSounds {
     if (_filter == null) {
       return _sounds!;
     }
     return {
-      for(MapEntry<String, Sound> sound in _sounds!.entries)
-        if(sound.key.contains(_filter!))
-          sound.key: sound.value
+      for (MapEntry<String, Sound> sound in _sounds!.entries)
+        if (sound.key.contains(_filter!)) sound.key: sound.value
     };
   }
 
@@ -62,7 +65,6 @@ class SoundProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
   void filter(String filter) {
     _filter = filter;
     if (_filter!.trim().isEmpty) _filter = null;
@@ -77,7 +79,9 @@ class SoundProvider with ChangeNotifier {
 
   void playSound(Sound sound, int? number) {
     String numberedFileId = "${sound.id}${number ?? ""}";
-    String path = getFileInHomeDir("AppData/Roaming/.minecraft/resourcepacks/hslu-mcspack/assets/minecraft/sounds/$numberedFileId.ogg").path;
+    String path = getFileInHomeDir(
+            "AppData/Roaming/.minecraft/resourcepacks/hslu-mcspack/assets/minecraft/sounds/$numberedFileId.ogg")
+        .path;
     _playSound(path);
   }
 
@@ -87,12 +91,32 @@ class SoundProvider with ChangeNotifier {
     _playSound(path);
   }
 
-  void _playSound(String source) async{
+  void _playSound(String source) async {
     Process.run("vlc", ["--intf", "dummy", source]).then((value) {
       print(value.exitCode);
       print(value.stderr);
       print(value.stdout);
     });
+  }
+
+  void exportCSV() {
+    var exportFile =
+        getFileInHomeDir(".mcspack/csv_export_$currentInputFile.csv");
+    var sorted = <String, List<Sound>>{};
+    sounds.forEach((key, value) {
+      var key = value.folders.join("/");
+      if (sorted[key] == null) {
+        sorted[key] = [value];
+      } else {
+        sorted[key]!.add(value);
+      }
+    });
+    String exportString = "";
+    sorted.forEach((key, value) {
+      exportString +=
+          "${value.first.folders.join("/")},,${value.fold(0, (previousValue, element) => element.numbers.length)},${value.map((e) => e.name).join("|")}\n";
+    });
+    exportFile.writeAsStringSync(exportString, mode: FileMode.write);
   }
 }
 

@@ -27,6 +27,11 @@ class MainScreen extends StatelessWidget {
                   icon: const Icon(Icons.refresh),
                   splashRadius: 20,
                 ),
+                IconButton(
+                  onPressed: () => provider.exportCSV(),
+                  icon: const Icon(Icons.import_export),
+                  splashRadius: 20,
+                ),
                 Expanded(
                   child: TextFormField(
                     controller: controller,
@@ -43,7 +48,8 @@ class MainScreen extends StatelessWidget {
           Builder(
             builder: (context) {
               SoundProvider watchingProvider = context.watch<SoundProvider>();
-              if (!watchingProvider.initialized) const LinearProgressIndicator();
+              if (!watchingProvider.initialized)
+                const LinearProgressIndicator();
               if (watchingProvider.initialized) {
                 return Expanded(
                   child: Builder(builder: (context) {
@@ -98,9 +104,11 @@ class MainScreen extends StatelessWidget {
                                                               : Colors.red,
                                                         ),
                                                         onPressed: ogAvailable
-                                                            ? () => watchingProvider
-                                                                .playOgSound(
-                                                                    sound, null)
+                                                            ? () =>
+                                                                watchingProvider
+                                                                    .playOgSound(
+                                                                        sound,
+                                                                        null)
                                                             : null,
                                                         splashRadius: 15,
                                                       ),
@@ -111,13 +119,13 @@ class MainScreen extends StatelessWidget {
                                                               ? Colors.green
                                                               : Colors.grey,
                                                         ),
-                                                        onPressed:
-                                                            customAvailable
-                                                                ? () => watchingProvider
+                                                        onPressed: customAvailable
+                                                            ? () =>
+                                                                watchingProvider
                                                                     .playSound(
                                                                         sound,
                                                                         null)
-                                                                : null,
+                                                            : null,
                                                         splashRadius: 15,
                                                       ),
                                                     ],
