@@ -15,6 +15,8 @@ class SoundProvider with ChangeNotifier {
 
   String currentInputFile = "";
 
+  int runningSounds = 0;
+
   Map<String, Sound> get filteredSounds {
     if (_filter == null) {
       return _sounds!;
@@ -63,6 +65,7 @@ class SoundProvider with ChangeNotifier {
     }
     _sortSounds();
     notifyListeners();
+    getRunningInstanceAmount();
   }
 
   void filter(String filter) {
@@ -83,20 +86,43 @@ class SoundProvider with ChangeNotifier {
             "AppData/Roaming/.minecraft/resourcepacks/hslu-mcspack/assets/minecraft/sounds/$numberedFileId.ogg")
         .path;
     _playSound(path);
+    getRunningInstanceAmount();
   }
 
   void playOgSound(Sound sound, int? number) {
     String numberedFileId = "${sound.id}${number ?? ""}";
     String path = getFileInHomeDir(".mcspack/.og/$numberedFileId.ogg").path;
     _playSound(path);
+    getRunningInstanceAmount();
   }
 
   void _playSound(String source) async {
-    Process.run("vlc", ["--intf", "dummy", source]).then((value) {
-      print(value.exitCode);
-      print(value.stderr);
-      print(value.stdout);
+    print("running sound $source");
+    Process.run("vlc", ["--intf", "dummy", source, "vlc://quit"]).then((value) {
+      print("done");
+      getRunningInstanceAmount();
     });
+  }
+
+  Future<int> getRunningInstanceAmount() async {
+    var result = await Process.run(
+        "tasklist", ["/fi", "IMAGENAME eq vlc.exe", "/fo", "csv", "/nh"]);
+    if (result.stdout.startsWith("INFO")) {
+      runningSounds = 0;
+      print("found 0 vlc instances");
+      notifyListeners();
+      return 0;
+    }
+    var count = "\r".allMatches(result.stdout as String).length;
+    runningSounds = count;
+    print("found $count vlc instances");
+    notifyListeners();
+    return count;
+  }
+
+  void killAllRunningInstances() async {
+    await Process.run("taskkill", ["/f", "/fi", "IMAGENAME eq vlc.exe"],);
+    getRunningInstanceAmount();
   }
 
   void exportCSV() {

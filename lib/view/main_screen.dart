@@ -32,6 +32,15 @@ class MainScreen extends StatelessWidget {
                   icon: const Icon(Icons.import_export),
                   splashRadius: 20,
                 ),
+                IconButton(
+                  onPressed: () async => provider.killAllRunningInstances(),
+                  icon: const Icon(Icons.stop),
+                  splashRadius: 20,
+                ),
+                Text(context
+                    .select((SoundProvider value) => value.runningSounds)
+                    .toString()),
+                const SizedBox(width: 10),
                 Expanded(
                   child: TextFormField(
                     controller: controller,
@@ -48,8 +57,9 @@ class MainScreen extends StatelessWidget {
           Builder(
             builder: (context) {
               SoundProvider watchingProvider = context.watch<SoundProvider>();
-              if (!watchingProvider.initialized)
+              if (!watchingProvider.initialized) {
                 const LinearProgressIndicator();
+              }
               if (watchingProvider.initialized) {
                 return Expanded(
                   child: Builder(builder: (context) {
