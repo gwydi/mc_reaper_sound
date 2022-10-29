@@ -19,23 +19,32 @@ class MainScreen extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
-                IconButton(
-                  onPressed: () {
-                    context.read<SoundProvider>().loadSounds();
-                    context.read<ConfigProvider>().init();
-                  },
-                  icon: const Icon(Icons.refresh),
-                  splashRadius: 20,
+                Tooltip(
+                  message: "Reload UI | Reads Reaper Files, ogg files and Markdown files",
+                  child: IconButton(
+                    onPressed: () {
+                      context.read<SoundProvider>().loadSounds();
+                      context.read<ConfigProvider>().init();
+                    },
+                    icon: const Icon(Icons.refresh),
+                    splashRadius: 20,
+                  ),
                 ),
-                IconButton(
-                  onPressed: () => provider.exportCSV(),
-                  icon: const Icon(Icons.import_export),
-                  splashRadius: 20,
+                Tooltip(
+                  message: "Export CSV File",
+                  child: IconButton(
+                    onPressed: () => provider.exportCSV(),
+                    icon: const Icon(Icons.import_export),
+                    splashRadius: 20,
+                  ),
                 ),
-                IconButton(
-                  onPressed: () async => provider.killAllRunningInstances(),
-                  icon: const Icon(Icons.stop),
-                  splashRadius: 20,
+                Tooltip(
+                  message: "STOP | Kill all VLC player instances",
+                  child: IconButton(
+                    onPressed: () async => provider.killAllRunningInstances(),
+                    icon: const Icon(Icons.stop),
+                    splashRadius: 20,
+                  ),
                 ),
                 Text(context
                     .select((SoundProvider value) => value.runningSounds)
