@@ -8,6 +8,8 @@ This projects aim is to make the creation of minecraft sound packs using reaper 
 - Create and open reaper project
 - Created Reaper Projects will export files to the correct location in the sound pack
 - Shows if a sound has already been approved (checks [all_sounds.md](https://github.com/gwydi/hslu-mcspack/blob/main/all_sounds.md))
+- Export categorized sounds to csv
+- Select markdown file as input file
 - All within one ui
 
 ## Installation
@@ -27,7 +29,6 @@ Follow these steps if you have not already done so:
 - download [this](https://raw.githubusercontent.com/gwydi/mc_reaper_sound/main/template_project.rpp) file and move it to ```~/.mcspack/template_project.rpp```
 
 ## known issues
-- reaper files with only one sound inside them have an issue when exporting. The rendered files need to be renamed manually (remove the ```template_project.rpp```)
 - the sounds under ```/event/raid/``` and ```/block/bell/bell_use``` do not work because the game has an inconsistent naming convention with those files.
 - playing one sound does not stop the previous sound from playing
 
