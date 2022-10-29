@@ -165,7 +165,7 @@ class SoundProvider with ChangeNotifier {
     String exportString = "";
     sorted.forEach((key, value) {
       exportString +=
-          "${value.first.folders.join("/")},,${value.fold(0, (previousValue, element) => element.numbers.length)},${value.map((e) => e.name).join("|")}\n";
+          "${value.first.folders.join("/")},,${value.fold<int>(0, (previousValue, element) => previousValue + element.numbers.length)},${value.map((e) => e.name).join("|")}\n";
     });
     exportFile.writeAsStringSync(exportString, mode: FileMode.write);
   }
