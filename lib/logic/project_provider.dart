@@ -38,7 +38,9 @@ class ProjectProvider with ChangeNotifier {
   Future<String> _populateTemplate(String template, Sound sound) async {
     var numbers = sound.numbers;
     String markers;
+    String pattern;
     if (numbers.isEmpty) {
+      pattern = sound.name;
       markers = _generateMarker(
         null,
         0,
@@ -47,13 +49,17 @@ class ProjectProvider with ChangeNotifier {
         ),
       );
     } else {
+      pattern = r"$project$region";
       markers = await _generateMarkers(sound, numbers.toList());
     }
-    return template.replaceFirst("{---MARKERS---}", markers).replaceFirst(
-        "{---RENDER-FILE---}",
-        getFileInHomeDir(
-                "AppData/Roaming/.minecraft/resourcepacks/hslu-mcspack/assets/minecraft/sounds/${sound.folders.join("/")}")
-            .path);
+    return template
+        .replaceFirst("{---MARKERS---}", markers)
+        .replaceFirst(
+            "{---RENDER-FILE---}",
+            getFileInHomeDir(
+                    "AppData/Roaming/.minecraft/resourcepacks/hslu-mcspack/assets/minecraft/sounds/${sound.folders.join("/")}")
+                .path)
+        .replaceFirst("{---RENDER-PATTERN---}", pattern);
   }
 
   Future<String> _generateMarkers(Sound sound, List<int> numbers) async {
@@ -75,7 +81,7 @@ class ProjectProvider with ChangeNotifier {
     return markerTemplate
         .replaceAll("{MARKER-NR}", number == null ? "1" : number.toString())
         .replaceAll("{MARKER-NAME}",
-            number == null ? "_RENAME_ME_AFTER_RENDER" : number.toString())
+            number == null ? "" : number.toString())
         .replaceAll("{START}", start.toString())
         .replaceAll(
           "{END}",
