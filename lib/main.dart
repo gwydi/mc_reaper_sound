@@ -16,7 +16,7 @@ void main() {
         value: configProvider,
       ),
       ChangeNotifierProvider(
-        create: (context) => SoundProvider()..loadSounds(),
+        create: (context) => SoundProvider()..loadSounds("all_sounds.md"),
         lazy: false,
       ),
       ChangeNotifierProvider(

@@ -4,10 +4,9 @@ import 'package:mc_reaper_sound/logic/custom_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:mc_reaper_sound/logic/project_provider.dart';
 
-import 'custom_functions.dart';
-
 class SoundProvider with ChangeNotifier {
   Map<String, Sound>? _sounds;
+  List<File>? _inputFiles;
 
   bool get initialized => _sounds != null;
 
@@ -29,9 +28,15 @@ class SoundProvider with ChangeNotifier {
 
   String? _filter;
 
-  void loadSounds() {
+  void loadSounds(String fileName) {
+    loadMdFiles();
+    if (!mdFiles.map((e) => e.uri.pathSegments.last).contains(fileName)) {
+      return; //todo: show error (reload hint)
+    }
+    currentInputFile = fileName;
+
     File file = getFileInHomeDir(
-        "AppData/Roaming/.minecraft/resourcepacks/hslu-mcspack/all_sounds.md");
+        "AppData/Roaming/.minecraft/resourcepacks/hslu-mcspack/$fileName");
     String allSounds = file.readAsStringSync();
     List<String> soundList = allSounds.split("\n");
     _sounds = {};
@@ -80,6 +85,23 @@ class SoundProvider with ChangeNotifier {
     });
   }
 
+  void loadMdFiles() {
+    var mcspackDir = Directory(getFileInHomeDir(
+            "AppData/Roaming/.minecraft/resourcepacks/hslu-mcspack")
+        .path);
+    var files = mcspackDir
+        .listSync()
+        .toList()
+        .whereType<File>()
+        .where((event) => event.uri.pathSegments.last.endsWith(".md"))
+        .toList();
+    _inputFiles = files;
+  }
+
+  List<File> get mdFiles {
+    return _inputFiles!;
+  }
+
   void playSound(Sound sound, int? number) {
     String numberedFileId = "${sound.id}${number ?? ""}";
     String path = getFileInHomeDir(
@@ -121,7 +143,10 @@ class SoundProvider with ChangeNotifier {
   }
 
   void killAllRunningInstances() async {
-    await Process.run("taskkill", ["/f", "/fi", "IMAGENAME eq vlc.exe"],);
+    await Process.run(
+      "taskkill",
+      ["/f", "/fi", "IMAGENAME eq vlc.exe"],
+    );
     getRunningInstanceAmount();
   }
 

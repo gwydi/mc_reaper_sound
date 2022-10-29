@@ -20,10 +20,13 @@ class MainScreen extends StatelessWidget {
             child: Row(
               children: [
                 Tooltip(
-                  message: "Reload UI | Reads Reaper Files, ogg files and Markdown files",
+                  message:
+                      "Reload UI | Reads Reaper Files, ogg files and Markdown files",
                   child: IconButton(
                     onPressed: () {
-                      context.read<SoundProvider>().loadSounds();
+                      context
+                          .read<SoundProvider>()
+                          .loadSounds(provider.currentInputFile);
                       context.read<ConfigProvider>().init();
                     },
                     icon: const Icon(Icons.refresh),
@@ -60,6 +63,40 @@ class MainScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+                Builder(
+                  builder: (context) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(color: Colors.black87),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 12.0),
+                          child: DropdownButton<String>(
+                            underline: Container(),
+                            value: context.select(
+                                (SoundProvider value) => value.currentInputFile),
+                            items: [
+                              ...context.select(
+                                (SoundProvider value) => value.mdFiles
+                                    .map(
+                                      (e) => DropdownMenuItem(
+                                        value: e.uri.pathSegments.last,
+                                        child: Text(e.uri.pathSegments.last),
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
+                            ],
+                            onChanged: (item) => provider.loadSounds(item!),
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                )
               ],
             ),
           ),
